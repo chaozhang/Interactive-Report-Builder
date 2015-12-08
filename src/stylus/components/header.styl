@@ -1,0 +1,33 @@
+header
+	display flex
+	justify-content center
+	align-items center
+	height 100px
+
+	.container
+		display flex
+		justify-content space-between
+		width content-width
+
+		#logo
+			hide-text()
+			
+			background transparent url($imagePath + '/logo.png') no-repeat 0 0
+			width 276px
+			height 36px
+			display block
+		
+		.links
+			display flex
+			justify-content center
+			align-items center
+
+			a
+				display block
+				padding 0 spacing-x-small
+				
+				:hover
+					text-decoration underline
+
+				&:first-child
+					border-right 1px solid color-blue-aluminium 

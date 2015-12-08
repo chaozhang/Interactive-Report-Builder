@@ -1,0 +1,55 @@
+.filters
+	display flex
+	justify-content flex-start
+	
+	> label, > div
+		height 40px
+		color color-blue-aluminium
+		display flex
+		align-items center
+		justify-content flex-start
+		margin-right 2rem
+
+	.selector
+		cursor pointer
+		flex-direction column
+		
+		.display, > ul
+			height 100%
+			width 250px
+
+		.display
+			padding-left 1rem
+			align-items center
+			display flex
+			justify-content space-between
+			color color-blue-aluminium
+			border 1px solid color-blue-rome
+
+			&:hover
+				color color-blue-endeavour
+			svg
+				width 18px
+				height 18px
+				fill color-blue-aluminium
+				margin-right 5px
+
+		> ul
+			position absolute
+			z-index 100
+
+			li
+				padding-left 1rem
+				background-color color-white
+				border solid 1px color-blue-rome
+				border-top none
+				height 40px
+				color color-blue-aluminium
+				display flex
+				align-items center
+				justify-content flex-start
+
+				&:hover
+					color color-blue-endeavour
+
+
