@@ -7,12 +7,8 @@ class Header extends React.Component {
   static defaultProps = {
     navItems: [
       {
-        name: 'Graph',
+        name: 'Builder',
         url: '/'
-      },
-      {
-        name: 'Data',
-        url: '/data'
       }
     ]
   }
