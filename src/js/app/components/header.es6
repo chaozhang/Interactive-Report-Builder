@@ -5,8 +5,8 @@ var {Link} = Router
  
 class Header extends React.Component {
   static defaultProps = {
-    repo: "https://github.com/chaozhang/Force-Directed-Graph",
-    issues: "https://github.com/chaozhang/Force-Directed-Graph/issues/new"
+    repo: "https://github.com/chaozhang/Interactive-Report-Builder",
+    issues: "https://github.com/chaozhang/Interactive-Report-Builder/issues/new"
   }
 
   render() {
