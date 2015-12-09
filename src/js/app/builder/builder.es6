@@ -1,22 +1,14 @@
 import React from 'react'
+import ComboEditor from '../components/comboEditor.es6'
  
-class Data extends React.Component {
-  componentDidMount() {
-    var editor = ace.edit(this.refs.container.getDOMNode());
-    editor.getSession().setMode("ace/mode/json");
-    editor.getSession().setUseWrapMode(true);
-    editor.getSession().setTabSize(2);
-    editor.$blockScrolling = Infinity;
-    editor.setShowPrintMargin(false);
-
-    if(this.props.data){
-      editor.setValue(JSON.stringify(this.props.data, null, '\t'), 1);
-    }
-  }
+class Builder extends React.Component {
 
   render() {
-    return <div className="content" ref="container"/>;
+    return <div>
+    	<ComboEditor/>
+    	<div className="container"></div>
+    </div>;
   }
 }
  
-export default Data
+export default Builder
