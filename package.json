@@ -29,5 +29,9 @@
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "react-button": "^1.2.1",
+    "react-iframe": "0.0.4"
   }
 }

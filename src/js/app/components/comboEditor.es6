@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from 'react-button'
 import Selector from './selector.es6'
 
 const EDITOR_MODE_SQL = 'sql';
@@ -34,13 +35,23 @@ class ComboEditor extends React.Component {
     }, this.componentDidMount);
   }
 
+  onCodeSubmit() {
+    if (this.state.mode == EDITOR_MODE_R) {
+      submitRCode();
+    }
+  }
+
+  submitRCode() {
+    
+  }
+
   render() {
     return <div className="combo-editor">
         <Selector
           list={[EDITOR_MODE_SQL, EDITOR_MODE_R, EDITOR_MODE_Text]}
           onChange={this.onModeChange.bind(this)}
         />
-        <button>Save</button>
+        <Button onClick={this.onCodeSubmit.bind(this)}>Submit</Button>
         <div ref="editor"/>
       </div>
   }

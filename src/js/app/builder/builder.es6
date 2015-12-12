@@ -1,4 +1,5 @@
 import React from 'react'
+import Iframe from 'react-iframe'
 import ComboEditor from '../components/comboEditor.es6'
  
 class Builder extends React.Component {
@@ -6,7 +7,9 @@ class Builder extends React.Component {
   render() {
     return <div>
     	<ComboEditor/>
-    	<div className="container"></div>
+    	<div className="container">
+		   <Iframe url="output.html"/>
+    	</div>
     </div>;
   }
 }
