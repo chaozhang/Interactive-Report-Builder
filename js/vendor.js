@@ -20,6 +20,459 @@ return new Za.prototype.init(a,b,c,d,e)}m.Tween=Za,Za.prototype={constructor:Za,
             })();
         
 define("ace/mode/tex_highlight_rules",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/mode/text_highlight_rules"],function(e,t,n){"use strict";var r=e("../lib/oop"),i=e("../lib/lang"),s=e("./text_highlight_rules").TextHighlightRules,o=function(e){e||(e="text"),this.$rules={start:[{token:"comment",regex:"%.*$"},{token:e,regex:"\\\\[$&%#\\{\\}]"},{token:"keyword",regex:"\\\\(?:documentclass|usepackage|newcounter|setcounter|addtocounter|value|arabic|stepcounter|newenvironment|renewenvironment|ref|vref|eqref|pageref|label|cite[a-zA-Z]*|tag|begin|end|bibitem)\\b",next:"nospell"},{token:"keyword",regex:"\\\\(?:[a-zA-z0-9]+|[^a-zA-z0-9])"},{token:"paren.keyword.operator",regex:"[[({]"},{token:"paren.keyword.operator",regex:"[\\])}]"},{token:e,regex:"\\s+"}],nospell:[{token:"comment",regex:"%.*$",next:"start"},{token:"nospell."+e,regex:"\\\\[$&%#\\{\\}]"},{token:"keyword",regex:"\\\\(?:documentclass|usepackage|newcounter|setcounter|addtocounter|value|arabic|stepcounter|newenvironment|renewenvironment|ref|vref|eqref|pageref|label|cite[a-zA-Z]*|tag|begin|end|bibitem)\\b"},{token:"keyword",regex:"\\\\(?:[a-zA-z0-9]+|[^a-zA-z0-9])",next:"start"},{token:"paren.keyword.operator",regex:"[[({]"},{token:"paren.keyword.operator",regex:"[\\])]"},{token:"paren.keyword.operator",regex:"}",next:"start"},{token:"nospell."+e,regex:"\\s+"},{token:"nospell."+e,regex:"\\w+"}]}};r.inherits(o,s),t.TexHighlightRules=o}),define("ace/mode/r_highlight_rules",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/mode/text_highlight_rules","ace/mode/tex_highlight_rules"],function(e,t,n){var r=e("../lib/oop"),i=e("../lib/lang"),s=e("./text_highlight_rules").TextHighlightRules,o=e("./tex_highlight_rules").TexHighlightRules,u=function(){var e=i.arrayToMap("function|if|in|break|next|repeat|else|for|return|switch|while|try|tryCatch|stop|warning|require|library|attach|detach|source|setMethod|setGeneric|setGroupGeneric|setClass".split("|")),t=i.arrayToMap("NULL|NA|TRUE|FALSE|T|F|Inf|NaN|NA_integer_|NA_real_|NA_character_|NA_complex_".split("|"));this.$rules={start:[{token:"comment.sectionhead",regex:"#+(?!').*(?:----|====|####)\\s*$"},{token:"comment",regex:"#+'",next:"rd-start"},{token:"comment",regex:"#.*$"},{token:"string",regex:'["]',next:"qqstring"},{token:"string",regex:"[']",next:"qstring"},{token:"constant.numeric",regex:"0[xX][0-9a-fA-F]+[Li]?\\b"},{token:"constant.numeric",regex:"\\d+L\\b"},{token:"constant.numeric",regex:"\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b"},{token:"constant.numeric",regex:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b"},{token:"constant.language.boolean",regex:"(?:TRUE|FALSE|T|F)\\b"},{token:"identifier",regex:"`.*?`"},{onMatch:function(n){return e[n]?"keyword":t[n]?"constant.language":n=="..."||n.match(/^\.\.\d+$/)?"variable.language":"identifier"},regex:"[a-zA-Z.][a-zA-Z0-9._]*\\b"},{token:"keyword.operator",regex:"%%|>=|<=|==|!=|\\->|<\\-|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||~|\\$|:"},{token:"keyword.operator",regex:"%.*?%"},{token:"paren.keyword.operator",regex:"[[({]"},{token:"paren.keyword.operator",regex:"[\\])}]"},{token:"text",regex:"\\s+"}],qqstring:[{token:"string",regex:'(?:(?:\\\\.)|(?:[^"\\\\]))*?"',next:"start"},{token:"string",regex:".+"}],qstring:[{token:"string",regex:"(?:(?:\\\\.)|(?:[^'\\\\]))*?'",next:"start"},{token:"string",regex:".+"}]};var n=(new o("comment")).getRules();for(var r=0;r<n.start.length;r++)n.start[r].token+=".virtual-comment";this.addRules(n,"rd-"),this.$rules["rd-start"].unshift({token:"text",regex:"^",next:"start"}),this.$rules["rd-start"].unshift({token:"keyword",regex:"@(?!@)[^ ]*"}),this.$rules["rd-start"].unshift({token:"comment",regex:"@@"}),this.$rules["rd-start"].push({token:"comment",regex:"[^%\\\\[({\\])}]+"})};r.inherits(u,s),t.RHighlightRules=u}),define("ace/mode/matching_brace_outdent",["require","exports","module","ace/range"],function(e,t,n){"use strict";var r=e("../range").Range,i=function(){};(function(){this.checkOutdent=function(e,t){return/^\s+$/.test(e)?/^\s*\}/.test(t):!1},this.autoOutdent=function(e,t){var n=e.getLine(t),i=n.match(/^(\s*\})/);if(!i)return 0;var s=i[1].length,o=e.findMatchingBracket({row:t,column:s});if(!o||o.row==t)return 0;var u=this.$getIndent(e.getLine(o.row));e.replace(new r(t,0,t,s-1),u)},this.$getIndent=function(e){return e.match(/^\s*/)[0]}}).call(i.prototype),t.MatchingBraceOutdent=i}),define("ace/mode/r",["require","exports","module","ace/range","ace/lib/oop","ace/mode/text","ace/mode/text_highlight_rules","ace/mode/r_highlight_rules","ace/mode/matching_brace_outdent","ace/unicode"],function(e,t,n){"use strict";var r=e("../range").Range,i=e("../lib/oop"),s=e("./text").Mode,o=e("./text_highlight_rules").TextHighlightRules,u=e("./r_highlight_rules").RHighlightRules,a=e("./matching_brace_outdent").MatchingBraceOutdent,f=e("../unicode"),l=function(){this.HighlightRules=u,this.$outdent=new a};i.inherits(l,s),function(){this.lineCommentStart="#",this.$id="ace/mode/r"}.call(l.prototype),t.Mode=l})
+/**
+ * Javascript client library for OpenCPU
+ * Version 0.5.0
+ * Depends: jQuery
+ * Requires HTML5 FormData support for file uploads
+ * http://github.com/jeroenooms/opencpu.js
+ *
+ * Include this file in your apps and packages.
+ * You only need to use ocpu.seturl if this page is hosted outside of the OpenCPU package. For example:
+ *
+ * ocpu.seturl("../R") //default, use for apps
+ * ocpu.seturl("//public.opencpu.org/ocpu/library/mypackage/R") //CORS
+ * ocpu.seturl("/ocpu/library/mypackage/R") //hardcode path
+ * ocpu.seturl("https://user:secret/my.server.com/ocpu/library/pkg/R") // basic auth
+ */
+
+//Warning for the newbies
+if(!window.jQuery) {
+  alert("Could not find jQuery! The HTML must include jquery.js before opencpu.js!")
+}
+
+(function ( $ ) {
+
+  //global variable
+  var r_cors = false;
+  var r_path = document.createElement('a');
+  r_path.href = "../R";
+
+
+  //new Session()
+  function Session(loc, key, txt){
+    this.loc = loc;
+    this.key = key;
+    this.txt = txt;
+    this.output = txt.split(/\r\n|\r|\n/g);
+
+    this.getKey = function(){
+      return key;
+    };
+
+    this.getLoc = function(){
+      return loc;
+    };
+
+    this.getFileURL = function(path){
+      var new_url = document.createElement('a');
+      new_url.href = this.getLoc() + "files/" + path;
+      new_url.username = r_path.username;
+      new_url.password = r_path.password
+      return new_url.href;
+    };
+
+    this.getFile = function(path, success){
+      var url = this.getFileURL(path);
+      return $.get(url, success);
+    };
+
+    this.getObject = function(name, data, success){
+      //in case of no arguments
+      name = name || ".val";
+
+      //first arg is a function
+      if(name instanceof Function){
+        //pass on to second arg
+        success = name;
+        name = ".val";
+      }
+
+      var url = this.getLoc() + "R/" + name + "/json";
+      return $.get(url, data, success);
+    };
+
+    this.getStdout = function(success){
+      var url = this.getLoc() + "stdout/text";
+      return $.get(url, success);
+    };
+
+    this.getConsole = function(success){
+      var url = this.getLoc() + "console/text";
+      return $.get(url, success);
+    };
+  }
+
+  //for POSTing raw code snippets
+  //new Snippet("rnorm(100)")
+  function Snippet(code){
+    this.code = code || "NULL";
+
+    this.getCode = function(){
+      return code;
+    };
+  }
+
+  //for POSTing files
+  //new Upload($('#file')[0].files)
+  function Upload(file){
+    if(file instanceof File){
+      this.file = file;
+    } else if(file instanceof FileList){
+      this.file = file[0];
+    } else if (file.files instanceof FileList){
+      this.file = file.files[0];
+    } else if (file.length > 0 && file[0].files instanceof FileList){
+      this.file = file[0].files[0];
+    } else {
+      throw 'invalid new Upload(file). Argument file must be a HTML <input type="file"></input>';
+    }
+
+    this.getFile = function(){
+      return file;
+    };
+  }
+
+  function stringify(x){
+    if(x instanceof Session){
+      return x.getKey();
+    } else if(x instanceof Snippet){
+      return x.getCode();
+    } else if(x instanceof Upload){
+      return x.getFile();
+    } else if(x instanceof File){
+      return x;
+    } else if(x instanceof FileList){
+      return x[0];
+    } else if(x && x.files instanceof FileList){
+      return x.files[0];
+    } else if(x && x.length && x[0].files instanceof FileList){
+      return x[0].files[0];
+    } else {
+      return JSON.stringify(x);
+    }
+  }
+
+  //low level call
+  function r_fun_ajax(fun, settings, handler){
+    //validate input
+    if(!fun) throw "r_fun_call called without fun";
+    settings = settings || {};
+    handler = handler || function(){};
+
+    //set global settings
+    settings.url = settings.url || (r_path.href + "/" + fun);
+    settings.type = settings.type || "POST";
+    settings.data = settings.data || {};
+    settings.dataType = settings.dataType || "text";
+
+    //ajax call
+    var jqxhr = $.ajax(settings).done(function(){
+      var loc = jqxhr.getResponseHeader('Location') || console.log("Location response header missing.");
+      var key = jqxhr.getResponseHeader('X-ocpu-session') || console.log("X-ocpu-session response header missing.");
+      var txt = jqxhr.responseText;
+
+      //in case of cors we translate relative paths to the target domain
+      if(r_cors && loc.match("^/[^/]")){
+        loc = r_path.protocol + "//" + r_path.host + loc;
+      }
+      handler(new Session(loc, key, txt));
+    }).fail(function(){
+      console.log("OpenCPU error HTTP " + jqxhr.status + "\n" + jqxhr.responseText);
+    });
+
+    //function chaining
+    return jqxhr;
+  }
+
+  //call a function using uson arguments
+  function r_fun_call_json(fun, args, handler){
+    return r_fun_ajax(fun, {
+      data: JSON.stringify(args || {}),
+      contentType : 'application/json'
+    }, handler);
+  }
+
+  //call function using url encoding
+  //needs to wrap arguments in quotes, etc
+  function r_fun_call_urlencoded(fun, args, handler){
+    var data = {};
+    $.each(args, function(key, val){
+      data[key] = stringify(val);
+    });
+    return r_fun_ajax(fun, {
+      data: $.param(data)
+    }, handler);
+  }
+
+  //call a function using multipart/form-data
+  //use for file uploads. Requires HTML5
+  function r_fun_call_multipart(fun, args, handler){
+    testhtml5();
+    var formdata = new FormData();
+    $.each(args, function(key, value) {
+      formdata.append(key, stringify(value));
+    });
+    return r_fun_ajax(fun, {
+      data: formdata,
+      cache: false,
+      contentType: false,
+      processData: false
+    }, handler);
+  }
+
+  //Automatically determines type based on argument classes.
+  function r_fun_call(fun, args, handler){
+    args = args || {};
+    var hasfiles = false;
+    var hascode = false;
+
+    //find argument types
+    $.each(args, function(key, value){
+      if(value instanceof File || value instanceof Upload || value instanceof FileList){
+        hasfiles = true;
+      } else if (value instanceof Snippet || value instanceof Session){
+        hascode = true;
+      }
+    });
+
+    //determine type
+    if(hasfiles){
+      return r_fun_call_multipart(fun, args, handler);
+    } else if(hascode){
+      return r_fun_call_urlencoded(fun, args, handler);
+    } else {
+      return r_fun_call_json(fun, args, handler);
+    }
+  }
+
+  //call a function and return JSON
+  function rpc(fun, args, handler){
+    return r_fun_call(fun, args, function(session){
+      session.getObject(function(data){
+        if(handler) handler(data);
+      }).fail(function(){
+        console.log("Failed to get JSON response for " + session.getLoc());
+      });
+    });
+  }
+
+  //plotting widget
+  //to be called on an (empty) div.
+  $.fn.rplot = function(fun, args, cb) {
+    var targetdiv = this;
+    var myplot = initplot(targetdiv);
+
+    //reset state
+    myplot.setlocation();
+    myplot.spinner.show();
+
+    // call the function
+    return r_fun_call(fun, args, function(tmp) {
+      myplot.setlocation(tmp.getLoc());
+
+      //call success handler as well
+      if(cb) cb(tmp);
+    }).always(function(){
+      myplot.spinner.hide();
+    });
+  };
+
+  $.fn.graphic = function(session, n){
+    initplot(this).setlocation(session.getLoc(), n || "last");
+  }
+
+  function initplot(targetdiv){
+    if(targetdiv.data("ocpuplot")){
+      return targetdiv.data("ocpuplot");
+    }
+    var ocpuplot = function(){
+      //local variables
+      var Location;
+      var n = "last";
+      var pngwidth;
+      var pngheight;
+
+      var plotdiv = $('<div />').attr({
+        style: "width: 100%; height:100%; min-width: 100px; min-height: 100px; position:relative; background-repeat:no-repeat; background-size: 100% 100%;"
+      }).appendTo(targetdiv).css("background-image", "none");
+
+      var spinner = $('<span />').attr({
+        style : "position: absolute; top: 20px; left: 20px; z-index:1000; font-family: monospace;"
+      }).text("loading...").appendTo(plotdiv).hide();
+
+      var pdf = $('<a />').attr({
+        target: "_blank",
+        style: "position: absolute; top: 10px; right: 10px; z-index:1000; text-decoration:underline; font-family: monospace;"
+      }).text("pdf").appendTo(plotdiv);
+
+      var svg = $('<a />').attr({
+        target: "_blank",
+        style: "position: absolute; top: 30px; right: 10px; z-index:1000; text-decoration:underline; font-family: monospace;"
+      }).text("svg").appendTo(plotdiv);
+
+      var png = $('<a />').attr({
+        target: "_blank",
+        style: "position: absolute; top: 50px; right: 10px; z-index:1000; text-decoration:underline; font-family: monospace;"
+      }).text("png").appendTo(plotdiv);
+
+      function updatepng(){
+        if(!Location) return;
+        pngwidth = plotdiv.width();
+        pngheight = plotdiv.height();
+        plotdiv.css("background-image", "url(" + Location + "graphics/" + n + "/png?width=" + pngwidth + "&height=" + pngheight + ")");
+      }
+
+      function setlocation(newloc, newn){
+        n = newn || n;
+        Location = newloc;
+        if(!Location){
+          pdf.hide();
+          svg.hide();
+          png.hide();
+          plotdiv.css("background-image", "");
+        } else {
+          pdf.attr("href", Location + "graphics/" + n + "/pdf?width=11.69&height=8.27&paper=a4r").show();
+          svg.attr("href", Location + "graphics/" + n + "/svg?width=11&height=6").show();
+          png.attr("href", Location + "graphics/" + n + "/png?width=800&height=600").show();
+          updatepng();
+        }
+      }
+
+      // function to update the png image
+      var onresize = debounce(function(e) {
+        if(pngwidth == plotdiv.width() && pngheight == plotdiv.height()){
+          return;
+        }
+        if(plotdiv.is(":visible")){
+          updatepng();
+        }
+      }, 500);
+
+      // register update handlers
+      plotdiv.on("resize", onresize);
+      $(window).on("resize", onresize);
+
+      //return objects
+      return {
+        setlocation: setlocation,
+        spinner : spinner
+      };
+    }();
+
+    targetdiv.data("ocpuplot", ocpuplot);
+    return ocpuplot;
+  }
+
+  // from understore.js
+  function debounce(func, wait, immediate) {
+    var result;
+    var timeout = null;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate)
+          result = func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow)
+        result = func.apply(context, args);
+      return result;
+    };
+  }
+
+  function testhtml5(){
+    if( window.FormData === undefined ) {
+      alert("Uploading of files requires HTML5. It looks like you are using an outdated browser that does not support this. Please install Firefox, Chrome or Internet Explorer 10+");
+      throw "HTML5 required.";
+    }
+  }
+
+  //export
+  window.ocpu = window.ocpu || {};
+  var ocpu = window.ocpu;
+
+  //global settings
+  function seturl(newpath){
+    if(!newpath.match("/R$")){
+      alert("ERROR! Trying to set R url to: " + newpath +". Path to an OpenCPU R package must end with '/R'");
+    } else {
+      r_path = document.createElement('a');
+      r_path.href = newpath;
+      r_path.href = r_path.href; //IE needs this
+
+      if(location.protocol != r_path.protocol || location.host != r_path.host){
+        r_cors = true;
+        if (!('withCredentials' in new XMLHttpRequest())) {
+          alert("This browser does not support CORS. Try using Firefox or Chrome.");
+        } else if(r_path.username && r_path.password) {
+          //should only do this for calls to opencpu maybe
+          var regex = new RegExp(r_path.host);
+          $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+              //only use auth for ajax requests to ocpu
+              if(regex.test(settings.url)){
+                //settings.username = r_path.username;
+                //settings.password = r_path.password;
+
+                /* take out user:pass from target url */
+                var target = document.createElement('a');
+                target.href = settings.url;
+                settings.url = target.protocol + "//" + target.host + target.pathname
+
+                /* set basic auth header */
+                settings.xhrFields = settings.xhrFields || {};
+                settings.xhrFields.withCredentials = true;
+                settings.crossDomain = true;
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(r_path.username + ":" + r_path.password));
+
+                /* debug */
+                console.log("Authenticated request to: " + settings.url + " (" + r_path.username + ", " + r_path.password + ")")
+              }
+            }
+          });
+        }
+      }
+
+      if(location.protocol == "https:" && r_path.protocol != "https:"){
+        alert("Page is hosted on HTTPS but using a (non-SSL) HTTP OpenCPU server. This is insecure and most browsers will not allow this.")
+      }
+
+      if(r_cors){
+        console.log("Setting path to CORS server " + r_path.href);
+      } else {
+        console.log("Setting path to local (non-CORS) server " + r_path.href);
+      }
+
+      //CORS disallows redirects.
+      return $.get(r_path.href + "/", function(resdata){
+        console.log("Path updated. Available objects/functions:\n" + resdata);
+
+      }).fail(function(xhr, textStatus, errorThrown){
+        alert("Connection to OpenCPU failed:\n" + textStatus + "\n" + xhr.responseText + "\n" + errorThrown);
+      });
+    }
+  }
+
+  //exported functions
+  ocpu.call = r_fun_call;
+  ocpu.rpc = rpc;
+  ocpu.seturl = seturl;
+
+  //exported constructors
+  ocpu.Snippet = Snippet;
+  ocpu.Upload = Upload;
+
+  //for innernetz exploder
+  if (typeof console == "undefined") {
+    this.console = {log: function() {}};
+  }
+
+}( jQuery ));
+
 ace.define("ace/mode/plain_text",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/text_highlight_rules","ace/mode/behaviour"], function(require, exports, module) {
 "use strict";
 
