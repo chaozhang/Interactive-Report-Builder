@@ -44,6 +44,7 @@ gulp.task('app:js:vendor', function () {
     paths.src + '/js/vendor/ace.1.2.2.js',
     paths.src + '/js/vendor/mode-saql.js',
     paths.src + '/js/vendor/mode-r.js',
+    paths.src + '/js/vendor/opencpu-0.5.js',
     paths.src + '/js/vendor/mode-text.js'])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest(paths.output + '/js'));

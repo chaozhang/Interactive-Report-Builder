@@ -8,7 +8,7 @@ class Builder extends React.Component {
     return <div>
     	<ComboEditor/>
     	<div className="container">
-		   <Iframe url="output.html"/>
+		   <Iframe/>
     	</div>
     </div>;
   }
