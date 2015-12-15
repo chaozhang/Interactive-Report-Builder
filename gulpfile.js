@@ -8,6 +8,7 @@ var source      = require("vinyl-source-stream");
 var browserSync = require("browser-sync");
 var stylus      = require('gulp-stylus');
 var nib         = require('nib');
+var concat      = require('gulp-concat');
 
 var paths = {
   assets: './assets',
@@ -36,6 +37,18 @@ gulp.task('app:js', function () {
   .pipe(gulp.dest(paths.output + '/js'));
 });
 
+// build app js
+gulp.task('app:js:vendor', function () {
+  gulp.src([paths.src + '/js/vendor/d3.v3.min.js',
+    paths.src + '/js/vendor/jquery-1.11.3.min.js',
+    paths.src + '/js/vendor/ace.1.2.2.js',
+    paths.src + '/js/vendor/mode-saql.js',
+    paths.src + '/js/vendor/mode-r.js',
+    paths.src + '/js/vendor/mode-text.js'])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest(paths.output + '/js'));
+});
+
 // build index html file
 gulp.task('app:html', function () {
   gulp.src(paths.src + '/index.html')
@@ -60,7 +73,7 @@ gulp.task('app:assets', function() {
 });
 
 // default build process
-gulp.task('default', ['app:js', 'app:html', 'app:css', 'app:assets'], function(){
+gulp.task('default', ['app:js', 'app:js:vendor', 'app:html', 'app:css', 'app:assets'], function(){
   console.log('done: add gulp watch here');
 });
 
