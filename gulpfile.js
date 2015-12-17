@@ -14,7 +14,8 @@ var paths = {
   assets: './assets',
   src: './src',
   output: './www',
-  npm: './node_modules'
+  npm: './node_modules',
+  vendor: './src/js/vendor'
 };
 
 // deploy to prod server
@@ -39,13 +40,14 @@ gulp.task('app:js', function () {
 
 // build app js
 gulp.task('app:js:vendor', function () {
-  gulp.src([paths.src + '/js/vendor/d3.v3.min.js',
-    paths.src + '/js/vendor/jquery-1.11.3.min.js',
-    paths.src + '/js/vendor/ace.1.2.2.js',
-    paths.src + '/js/vendor/mode-saql.js',
-    paths.src + '/js/vendor/mode-r.js',
-    paths.src + '/js/vendor/opencpu-0.5.js',
-    paths.src + '/js/vendor/mode-text.js'])
+  gulp.src([paths.vendor + '/d3.v3.min.js',
+    paths.vendor + '/jquery-1.11.3.min.js',
+    paths.vendor + '/ace.1.2.2.js',
+    paths.vendor + '/mode-saql.js',
+    paths.vendor + '/mode-r.js',
+    paths.vendor + '/opencpu-0.5.js',
+    paths.vendor + '/togetherjs-min.2.0.js',
+    paths.vendor + '/mode-text.js'])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest(paths.output + '/js'));
 });
