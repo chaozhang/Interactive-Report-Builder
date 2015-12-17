@@ -7,13 +7,31 @@ import Nav from './components/nav.es6'
 
 
 var { Route, DefaultRoute, RouteHandler } = Router
-
-var POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobserver&classPath=com.projectx.jobserver.readVisGraph&context=readvisgraph&sync=true";
  
 class App extends React.Component {
-  state = { 
-    data: null
-  };
+  componentWillMount() {
+    // set up together js
+    TogetherJSConfig_autoStart = true;
+    TogetherJSConfig_suppressJoinConfirmation = true;
+    TogetherJSConfig_dontShowClicks = true;
+    TogetherJSConfig_disableWebRTC = true;
+    TogetherJSConfig_toolName = " Collaboration";
+    TogetherJSConfig_siteName = "projectx";
+    TogetherJSConfig_cloneClicks = false;
+    TogetherJSConfig_on_ready = function () {};
+    TogetherJSConfig_getUserName = function () {
+      return 'Your Name...';
+    };
+
+    // set up ocpu
+    ocpu.seturl("//158.85.79.185:3602/ocpu/library/rmarkdown/R")
+  }
+
+  componentWillUnmount() {
+    if (TogetherJS.require("session")) {
+      TogetherJS();
+    }   
+  }
 
   render() {
     return <div className='bodywrap'>
