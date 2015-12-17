@@ -2,6 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* set up together js */
+var TogetherJSConfig_autoStart = true,
+    TogetherJSConfig_suppressJoinConfirmation = true,
+    TogetherJSConfig_dontShowClicks = true,
+    TogetherJSConfig_disableWebRTC = true,
+    TogetherJSConfig_toolName = " Collaboration",
+    TogetherJSConfig_siteName = "projectx",
+    TogetherJSConfig_cloneClicks = false,
+    TogetherJSConfig_getUserName = function () {
+      return 'Your Name...';
+    };
+
 /*jshint scripturl:true */
 (function () {
 
@@ -17,7 +29,7 @@
     // of the hub analytics
     enableAnalytics: false,
     // The code to enable (this is defaulting to a Mozilla code):
-    analyticsCode: "UA-35433268-28",
+    analyticsCode: "UA-66790605-2",
     // The base URL of the hub (gets filled in below):
     hubBase: null,
     // A function that will return the name of the user:

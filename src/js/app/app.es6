@@ -10,27 +10,21 @@ var { Route, DefaultRoute, RouteHandler } = Router
  
 class App extends React.Component {
   componentWillMount() {
-    // set up together js
-    TogetherJSConfig_autoStart = true;
-    TogetherJSConfig_suppressJoinConfirmation = true;
-    TogetherJSConfig_dontShowClicks = true;
-    TogetherJSConfig_disableWebRTC = true;
-    TogetherJSConfig_toolName = " Collaboration";
-    TogetherJSConfig_siteName = "projectx";
-    TogetherJSConfig_cloneClicks = false;
-    TogetherJSConfig_on_ready = function () {};
-    TogetherJSConfig_getUserName = function () {
-      return 'Your Name...';
-    };
-
     // set up ocpu
     ocpu.seturl("//158.85.79.185:3602/ocpu/library/rmarkdown/R")
+
+    // distroy TogetherJS before leaving the site
+    $( window ).unload(function() {
+      if (TogetherJS.require("session")) {
+        TogetherJS();
+      }
+    });
   }
 
-  componentWillUnmount() {
-    if (TogetherJS.require("session")) {
+  componentDidMount() {
+    if(!TogetherJS.startup.continued){
       TogetherJS();
-    }   
+    }     
   }
 
   render() {
