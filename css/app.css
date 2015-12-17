@@ -489,7 +489,7 @@ footer p a {
 #d3-container svg {
   margin-left: -50%;
 }
-body > header {
+.bodywrap > header {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -510,7 +510,7 @@ body > header {
   align-items: center;
   height: 100px;
 }
-body > header .container {
+.bodywrap > header .container {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -525,7 +525,7 @@ body > header .container {
   justify-content: space-between;
   width: 80%;
 }
-body > header .container #logo {
+.bodywrap > header .container #logo {
   text-indent: 101%;
   white-space: nowrap;
   overflow: hidden;
@@ -534,7 +534,7 @@ body > header .container #logo {
   height: 99px;
   display: block;
 }
-body > header .container .links {
+.bodywrap > header .container .links {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -554,14 +554,14 @@ body > header .container .links {
   -webkit-align-items: center;
   align-items: center;
 }
-body > header .container .links a {
+.bodywrap > header .container .links a {
   display: block;
   padding: 0 0.5rem;
 }
-body > header .container .links a :hover {
+.bodywrap > header .container .links a :hover {
   text-decoration: underline;
 }
-body > header .container .links a:first-child {
+.bodywrap > header .container .links a:first-child {
   border-right: 1px solid #5c7a99;
 }
 nav {
