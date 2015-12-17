@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css">
   <link rel="stylesheet" href="css/app.css" type="text/css">
 </head>
-<body>
+<body onbeforeunload = "return stopSession()">
 	
 </body>
 <!-- Scripts -->
@@ -26,9 +26,16 @@
   TogetherJSConfig_disableWebRTC = true;
   TogetherJSConfig_toolName = " Collaboration";
   TogetherJSConfig_siteName = "projectx";
+  TogetherJSConfig_cloneClicks = false;
   TogetherJSConfig_on_ready = function () {
     //alert(TogetherJS.shareUrl());
   };
+  function stopSession() {
+    var session = TogetherJS.require("session");
+    if (session != null) {
+      TogetherJS();
+    }
+  }
   TogetherJSConfig_getUserName = function () {return 'Ji Yan';};
 </script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
