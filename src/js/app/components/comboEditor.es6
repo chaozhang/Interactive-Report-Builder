@@ -34,35 +34,51 @@ class ComboEditor extends React.Component {
       maxLines: 20,
       minLines: 3
     });
-  }
+  };
 
   onModeChange(newMode) {
     this.setState({
       mode: newMode
     }, this.componentDidMount);
-  }
+  };
 
   onCodeSubmit() {
     if (this.state.mode == EDITOR_MODE_R) {
-      this.submitRCode();
+      this.submitRCode(this.props.onSubmit);
     } else if (this.state.mode == EDITOR_MODE_SQL) {
-      this.submitSQLCode();
+      this.submitSQLCode(this.props.onSubmit);
+    } else if (this.state.mode == EDITOR_MODE_Text) {
+      this.submitText(this.props.onSubmit);
     }
-  }
+  };
 
-  domarkdown() {
+  submitRCode(cb) {
     var req = ocpu.call("rmdtext", {
       text : editor.getValue()
-    }, function(session){
-      $("iframe").attr('src', session.getFileURL("output.html"));
-    }).fail(function(text){
-      alert("Error: " + req.responseText);
+    }, (session) => {
+      cb({
+        type: this.state.mode,
+        url: session.getFileURL("output.html")
+      });
     });
-  }
+  };
 
-  submitRCode() {
-    this.domarkdown();
-  }
+  submitSQLCode(cb) {
+    var def = $.post(POSTURL, {input: this.urlencode(editor.getValue())});
+    def.done((res) => {
+      cb({
+        type: this.state.mode,
+        text: res.result
+      });
+    });
+  };
+
+  submitText(cb) {
+    cb({
+      type: this.state.mode,
+      text: editor.getValue()
+    });
+  };
 
   urlencode(str) {
     //       discuss at: http://phpjs.org/functions/urlencode/
@@ -102,13 +118,7 @@ class ComboEditor extends React.Component {
       .replace(/\)/g, '%29')
       .replace(/\*/g, '%2A')
       .replace(/%20/g, '+');
-  }
-  submitSQLCode() {
-    var def = $.post(POSTURL, {input: this.urlencode(editor.getValue())});
-    def.done( (res) => {
-      alert(res.status);
-    });
-  }
+  };
 
   render() {
     return <div className="combo-editor">
