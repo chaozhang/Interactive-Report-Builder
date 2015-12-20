@@ -21,8 +21,9 @@ class ComboEditor extends React.Component {
   };
 
   componentDidMount() {
-    editor = ace.edit(this.refs.editor.getDOMNode());
     var modeRef = "ace/mode/" + this.state.mode;
+
+    editor = ace.edit(this.refs.editor.getDOMNode());
 
     editor.getSession().setMode(modeRef);
     editor.getSession().setUseWrapMode(true);
@@ -30,6 +31,10 @@ class ComboEditor extends React.Component {
     editor.$blockScrolling = Infinity;
     editor.setShowPrintMargin(false);
     editor.setValue(DEFAULT_INPUT[this.state.mode], 1);
+    editor.setOptions({
+      maxLines: 20,
+      minLines: 1
+    });
   }
 
   onModeChange(newMode) {
@@ -46,11 +51,11 @@ class ComboEditor extends React.Component {
     }
   }
 
-  domarkdown(){
+  domarkdown() {
     var req = ocpu.call("rmdtext", {
       text : editor.getValue()
     }, function(session){
-      $("iframe").attr('src', session.getFileURL("output.html"));     
+      $("iframe").attr('src', session.getFileURL("output.html"));
     }).fail(function(text){
       alert("Error: " + req.responseText);
     });
@@ -95,28 +100,30 @@ class ComboEditor extends React.Component {
       .replace(/!/g, '%21')
       .replace(/'/g, '%27')
       .replace(/\(/g, '%28')
-      .
-    replace(/\)/g, '%29')
+      .replace(/\)/g, '%29')
       .replace(/\*/g, '%2A')
       .replace(/%20/g, '+');
   }
   submitSQLCode() {
-    alert(this.urlencode(editor.getValue()));
     var def = $.post(POSTURL, {input: this.urlencode(editor.getValue())});
     def.done( (res) => {
-      alert(res.result);
+      alert(res.status);
     });
   }
 
   render() {
     return <div className="combo-editor">
+      <div className="left">
         <Selector
           list={[EDITOR_MODE_SQL, EDITOR_MODE_R, EDITOR_MODE_Text]}
           onChange={this.onModeChange.bind(this)}
         />
-        <Button onClick={this.onCodeSubmit.bind(this)}>Submit</Button>
-        <div ref="editor"/>
       </div>
+      <div className="right"> 
+        <div ref="editor"/>
+        <Button onClick={this.onCodeSubmit.bind(this)}>Submit</Button>
+      </div>
+    </div>
   }
 }
  

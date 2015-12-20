@@ -1,2 +1,46 @@
-.ace_editor
-  height 100%
+.ace-tm.ace_editor
+	height 13rem
+	margin-bottom spacing-medium
+	border 1px solid color-blue-rome
+	border-radius border-radius-medium
+	color color-blue-zodiac
+
+	&.ace_autocomplete
+		background color-white
+		color inherit
+		border-color color-blue-rome
+		box-shadow none
+		line-height 1.5
+		z-index 2000000
+
+		.ace_completion-highlight
+			color inherit
+
+		.ace_line .ace_rightAlignedText
+			color color-blue-aluminium
+
+	.ace_line-hover
+		border none !important
+		background color-blue-athens !important
+	
+	.ace_gutter
+		background color-blue-athens
+		color color-blue-zodiac
+
+	.ace_gutter-active-line
+		background-color color-blue-rome
+
+	.ace_marker-layer .ace_active-line
+		background-color color-blue-sparta !important
+
+	.ace_cursor
+		color color-blue-zodiac
+
+	.ace_keyword
+		color color-blue-sky-900
+		
+	.ace_support.ace_function
+		color color-purple-rain-500
+		
+	.ace_constant.ace_numeric
+		color color-red-error
