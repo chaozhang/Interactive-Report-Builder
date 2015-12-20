@@ -462,11 +462,14 @@ iframe {
 }
 .content .container {
   width: 100%;
-  height: 500px;
+  min-height: 500px;
   border: 1px solid #c5d3e0;
   padding: 2rem 4rem;
 }
-.content .container iframe {
+.content .container > div {
+  margin-bottom: 1rem;
+}
+.content .container > div iframe {
   width: 100%;
   min-height: 300px;
 }
