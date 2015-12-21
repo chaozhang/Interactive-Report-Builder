@@ -16,13 +16,13 @@ class SqlWidget extends React.Component {
         body = [];
 
     for (let headerColumn of DEFAULT_DATA[0]) {
-      headers.push(<th>{headerColumn}</th>)
+      headers.push(<th title={headerColumn}>{headerColumn}</th>)
     }
 
     for (let row of DEFAULT_DATA[1]) {
       let rowView = []
       for (let col of row) {
-        rowView.push(<td>{col}</td>);
+        rowView.push(<td title={col}>{col}</td>);
       }
       body.push(<tr>{rowView}</tr>);
     }

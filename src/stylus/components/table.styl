@@ -2,22 +2,30 @@ table
   position relative
   height 100%
   
-  th, td
-    padding 10px 10px 9px
-    line-height 18px
-    text-align left
+  tr
+    display flex
+
+    th, td
+      padding 10px 10px 9px
+      line-height 18px
+      text-align left
+      white-space nowrap
+      width 8rem
+      overflow hidden
+      text-overflow ellipsis
 
   thead
     height 2rem
     padding 0
-    background color-blue-rome
+    background #e6ecf2
 
     th
-      padding-top 9px
-      font-weight bold
-      vertical-align middle
+      font-weight 400
+      align-items center
+      font-size 1rem
 
   tr
     td
       vertical-align top
       border-top 1px solid color-blue-rome
+      font-size 0.875rem
