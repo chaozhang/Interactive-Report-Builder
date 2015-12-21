@@ -465,7 +465,7 @@ iframe {
   min-height: 500px;
   border: 1px solid #c5d3e0;
 }
-.content .container > div {
+.content .container .output {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -473,7 +473,7 @@ iframe {
   display: box;
   display: flex;
 }
-.content .container > div > div:last-child {
+.content .container .output > div:last-child {
   overflow-wrap: break-word;
   padding: 2rem 4rem 2rem 0;
   -webkit-box-flex: 16;
@@ -484,16 +484,16 @@ iframe {
   -ms-flex: 16;
   flex: 16;
 }
-.content .container > div > div:last-child.sql-result {
+.content .container .output > div:last-child.sql-result {
   max-height: 500px;
 }
-.content .container > div > div:last-child iframe {
+.content .container .output > div:last-child iframe {
   min-height: 250px;
   max-height: 550px;
   width: 100%;
   border: 1px solid #c5d3e0;
 }
-.content .container > div:hover .actions button {
+.content .container .output:hover .actions button {
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -502,7 +502,7 @@ iframe {
   display: flex;
   margin-bottom: 0.5rem;
 }
-.content .container > div .actions {
+.content .container .output .actions {
   width: 4rem;
   display: -webkit-box;
   display: -moz-box;
@@ -536,7 +536,7 @@ iframe {
   -webkit-align-items: center;
   align-items: center;
 }
-.content .container > div .actions button {
+.content .container .output .actions button {
   display: none;
 }
 .ace-tm.ace_editor {
