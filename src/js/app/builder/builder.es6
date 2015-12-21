@@ -26,12 +26,26 @@ class Builder extends React.Component {
     });
   }
 
+  addInput(e) {
+    var index = $(".add-input .remove").index(e.target),
+        data = this.state.data;
+    data.push({type: "input"});
+
+    this.setState({
+      data: data
+    });   
+  }
+
   createView() {
     var items = this.state.data,
         result = [],
         actions = <div
           className="actions">
-          <button>+</button>
+          <button
+            className="add-input"
+            onClick={this.addInput.bind(this)}>
+            +
+          </button>
           <button
             className="remove"
             onClick={this.removeItem.bind(this)}>
@@ -47,18 +61,29 @@ class Builder extends React.Component {
           view = <SqlWidget
             data={item.data}
           />;
-          result.push(<div>{actions}{view}</div>);
+          result.push(<div className="output">
+            {actions}{view}
+          </div>);
           break;
         case 'r':
-          view = <div>
+          view = <div className="output">
             {actions}
             <div><iframe src={item.url}></iframe></div>
           </div>;
           result.push(view);
           break;
         case 'text':
-          view = <div>{actions}<div>{item.text}</div></div>;
+          view = <div className="output">{actions}<div>{item.text}</div></div>;
           result.push(view);
+          break;
+        case 'input':
+          result.push(
+            <div className="input">
+              <ComboEditor
+                onSubmit={this.addItem.bind(this)}
+              />
+            </div>
+          );
           break;
       }
     }
@@ -67,12 +92,22 @@ class Builder extends React.Component {
   }
 
   render() {
+    var content;
+
+    if(this.state.data.length) {
+      content = <div >
+        {this.createView()}
+      </div>;
+    } else {
+      content = <div className="input">
+        <ComboEditor
+          onSubmit={this.addItem.bind(this)}
+        />
+      </div>;
+    }
     return <div className="content">
-      <ComboEditor
-        onSubmit={this.addItem.bind(this)}
-      />
       <div className="container">
-         {this.createView()}
+         {content}
       </div>
     </div>;
   }
