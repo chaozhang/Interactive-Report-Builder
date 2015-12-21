@@ -3,16 +3,37 @@
 		width 100%
 		min-height 500px
 		border 1px solid color-blue-rome
-		padding 2rem 4rem
-		
-		> div
-			margin-bottom spacing-medium
-			overflow-wrap break-word
-			
-			&.sql-result
-				width 100%
-				max-height 500px
 
-			iframe
-				width 100%
-				min-height 300px
+		> div
+			display flex
+
+			> div:last-child
+				overflow-wrap break-word
+				padding 2rem 4rem 2rem 0
+				flex 16
+
+				&.sql-result
+					max-height 500px
+				iframe
+					min-height 250px
+					max-height 550px
+					width 100%
+					border 1px solid color-blue-rome
+
+			&:hover .actions button
+				display flex
+				margin-bottom 0.5rem
+				
+			.actions
+				width 4rem
+				display flex
+				flex-direction column
+				flex 1
+				justify-content center
+				align-items center
+
+				button
+					display none
+
+
+

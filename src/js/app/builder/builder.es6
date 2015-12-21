@@ -17,7 +17,13 @@ class Builder extends React.Component {
   }
 
   createView() {
-    var items = this.state.data, result = [];
+    var items = this.state.data,
+        result = [],
+        actions = <div
+          className="actions">
+          <button>+</button>
+          <button>X</button>
+        </div>
 
     for (let item of items) {
       let view;
@@ -27,16 +33,17 @@ class Builder extends React.Component {
           view = <SqlWidget
             data={item.data}
           />;
-          result.push(view);
+          result.push(<div>{actions}{view}</div>);
           break;
         case 'r':
           view = <div>
-            <iframe src={item.url}></iframe>
+            {actions}
+            <div><iframe src={item.url}></iframe></div>
           </div>;
           result.push(view);
           break;
         case 'text':
-          view = <div>{item.text}</div>;
+          view = <div>{actions}<div>{item.text}</div></div>;
           result.push(view);
           break;
       }
