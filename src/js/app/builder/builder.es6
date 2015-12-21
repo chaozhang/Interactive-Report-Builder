@@ -16,13 +16,27 @@ class Builder extends React.Component {
     });
   }
 
+  removeItem(e) {
+    var index = $(".container .remove").index(e.target),
+        data = this.state.data;
+    data.splice(index, 1);
+
+    this.setState({
+      data: data
+    });
+  }
+
   createView() {
     var items = this.state.data,
         result = [],
         actions = <div
           className="actions">
           <button>+</button>
-          <button>X</button>
+          <button
+            className="remove"
+            onClick={this.removeItem.bind(this)}>
+            X
+          </button>
         </div>
 
     for (let item of items) {
