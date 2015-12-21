@@ -1,5 +1,6 @@
 import React from 'react'
 import ComboEditor from '../components/comboEditor.es6'
+import SqlWidget from './sqlWidget.es6'
  
 class Builder extends React.Component {
   state = { 
@@ -23,7 +24,9 @@ class Builder extends React.Component {
 
       switch (item.type) {
         case 'sql':
-          view = <div>{item.text}</div>;
+          view = <SqlWidget
+            data={item.data}
+          />;
           result.push(view);
           break;
         case 'r':

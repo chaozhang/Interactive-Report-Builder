@@ -47,6 +47,7 @@ gulp.task('app:js:vendor', function () {
     paths.vendor + '/mode-r.js',
     paths.vendor + '/opencpu-0.5.js',
     paths.vendor + '/togetherjs-min.2.0.js',
+    paths.vendor + '/highChart.js',
     paths.vendor + '/mode-text.js'])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest(paths.output + '/js'));
