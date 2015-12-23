@@ -4,12 +4,12 @@ import SqlWidget from './sqlWidget.es6'
  
 class Builder extends React.Component {
   state = { 
-    data: []
+    data: [{}]
   }
 
-  addItem(newItem) {
+  addOutput(index, newItem) {
     var data = this.state.data;
-    data.push(newItem);
+    data[index] = newItem;
 
     this.setState({
       data: data
@@ -17,97 +17,106 @@ class Builder extends React.Component {
   }
 
   removeItem(e) {
-    var index = $(".container .remove").index(e.target),
+    var index = this.getIndex(e),
         data = this.state.data;
     data.splice(index, 1);
+
+    if (data.length == 0) {
+      data.push({});
+    }
 
     this.setState({
       data: data
     });
   }
 
-  addInput(e) {
-    var index = $(".add-input .remove").index(e.target),
+  addNewItem(e) {
+    var index = this.getIndex(e),
         data = this.state.data;
-    data.push({type: "input"});
+    data.splice(index+1, 0, {});
 
     this.setState({
       data: data
-    });   
+    });
+  }
+
+  getIndex(e) {
+    var $section = $(e.target).closest(".section");
+
+    return $(".container .section").index($section[0]);
+  }
+
+  createActions() {
+    return <div className="actions">
+      <button
+        className="add-input"
+        onClick={this.addNewItem.bind(this)}>
+        +
+      </button>
+      <button
+        className="remove"
+        onClick={this.removeItem.bind(this)}>
+        X
+      </button>
+    </div>
   }
 
   createView() {
     var items = this.state.data,
         result = [],
-        actions = <div
-          className="actions">
-          <button
-            className="add-input"
-            onClick={this.addInput.bind(this)}>
-            +
-          </button>
-          <button
-            className="remove"
-            onClick={this.removeItem.bind(this)}>
-            X
-          </button>
-        </div>
+        actions = this.createActions();
 
-    for (let item of items) {
-      let view;
+    items.forEach((item, index) => {
+      let output,
+          input = <div className="input">
+        <ComboEditor
+          onSubmit={this.addOutput.bind(this)}
+          index={index}
+        />
+      </div>;
 
       switch (item.type) {
         case 'sql':
-          view = <SqlWidget
-            data={item.data}
-          />;
-          result.push(<div className="output">
-            {actions}{view}
-          </div>);
+          output = <div className="output">
+            {actions}
+            <SqlWidget
+              data={item.data}
+            />
+          </div>;
           break;
         case 'r':
-          view = <div className="output">
+          output = <div className="output">
             {actions}
-            <div><iframe src={item.url}></iframe></div>
+            <div>
+              <iframe src={item.url}></iframe>
+            </div>
           </div>;
-          result.push(view);
           break;
         case 'text':
-          view = <div className="output">{actions}<div>{item.text}</div></div>;
-          result.push(view);
-          break;
-        case 'input':
-          result.push(
-            <div className="input">
-              <ComboEditor
-                onSubmit={this.addItem.bind(this)}
-              />
+          output = <div className="output">
+            {actions}
+            <div>
+              {item.text}
             </div>
-          );
+          </div>;
           break;
       }
-    }
+
+      result.push(
+        <div className="section">
+          {input}
+          {output}
+        </div>
+      );
+    });
 
     return result;
   }
 
   render() {
-    var content;
-
-    if(this.state.data.length) {
-      content = <div >
-        {this.createView()}
-      </div>;
-    } else {
-      content = <div className="input">
-        <ComboEditor
-          onSubmit={this.addItem.bind(this)}
-        />
-      </div>;
-    }
     return <div className="content">
       <div className="container">
-         {content}
+        {this.createView()}
       </div>
     </div>;
   }

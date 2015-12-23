@@ -42,39 +42,39 @@ class ComboEditor extends React.Component {
     }, this.componentDidMount);
   };
 
-  onCodeSubmit() {
+  onCodeSubmit(e) {
     if (this.state.mode == EDITOR_MODE_R) {
-      this.submitRCode(this.props.onSubmit);
+      this.submitRCode();
     } else if (this.state.mode == EDITOR_MODE_SQL) {
-      this.submitSQLCode(this.props.onSubmit);
+      this.submitSQLCode();
     } else if (this.state.mode == EDITOR_MODE_Text) {
-      this.submitText(this.props.onSubmit);
+      this.submitText();
     }
   };
 
-  submitRCode(cb) {
+  submitRCode() {
     var req = ocpu.call("rmdtext", {
       text : editor.getValue()
     }, (session) => {
-      cb({
+      this.props.onSubmit(this.props.index, {
         type: this.state.mode,
         url: session.getFileURL("output.html")
       });
     });
   };
 
-  submitSQLCode(cb) {
+  submitSQLCode() {
     var def = $.post(POSTURL, {input: this.urlencode(editor.getValue())});
     def.done((res) => {
-      cb({
+      this.props.onSubmit(this.props.index, {
         type: this.state.mode,
         data: res.result
       });
     });
   };
 
-  submitText(cb) {
-    cb({
+  submitText() {
+    this.props.onSubmit(this.props.index, {
       type: this.state.mode,
       text: editor.getValue()
     });
