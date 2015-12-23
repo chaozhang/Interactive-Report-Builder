@@ -1,10 +1,14 @@
 import React from 'react'
 import ComboEditor from '../components/comboEditor.es6'
 import SqlWidget from './sqlWidget.es6'
+
+const DATA_INPUT = {
+  type: "input"
+}
  
 class Builder extends React.Component {
   state = { 
-    data: [{}]
+    data: [DATA_INPUT]
   }
 
   addOutput(index, newItem) {
@@ -22,7 +26,7 @@ class Builder extends React.Component {
     data.splice(index, 1);
 
     if (data.length == 0) {
-      data.push({});
+      data.push(DATA_INPUT);
     }
 
     this.setState({
@@ -33,7 +37,7 @@ class Builder extends React.Component {
   addNewItem(e) {
     var index = this.getIndex(e),
         data = this.state.data;
-    data.splice(index+1, 0, {});
+    data.splice(index+1, 0, DATA_INPUT);
 
     this.setState({
       data: data
@@ -67,17 +71,11 @@ class Builder extends React.Component {
         actions = this.createActions();
 
     items.forEach((item, index) => {
-      let output,
-          input = <div className="input">
-        <ComboEditor
-          onSubmit={this.addOutput.bind(this)}
-          index={index}
-        />
-      </div>;
+      let view;
 
       switch (item.type) {
         case 'sql':
-          output = <div className="output">
+          view = <div className="output">
             {actions}
             <SqlWidget
               data={item.data}
@@ -85,7 +83,7 @@ class Builder extends React.Component {
           </div>;
           break;
         case 'r':
-          output = <div className="output">
+          view = <div className="output">
             {actions}
             <div>
               <iframe src={item.url}></iframe>
@@ -93,19 +91,25 @@ class Builder extends React.Component {
           </div>;
           break;
         case 'text':
-          output = <div className="output">
+          view = <div className="output">
             {actions}
             <div>
               {item.text}
             </div>
           </div>;
           break;
+        case 'input':
+          view = <div className="input">
+            <ComboEditor
+              onSubmit={this.addOutput.bind(this)}
+              index={index}
+            />
+          </div>
       }
 
       result.push(
         <div className="section">
-          {input}
-          {output}
+          {view}
         </div>
       );
     });
