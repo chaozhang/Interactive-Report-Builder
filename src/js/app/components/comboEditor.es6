@@ -10,7 +10,7 @@ var POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobse
 
 const DEFAULT_INPUT = {
   sql: "select * from Crime limit 20",
-  r: "Call:\nlm(formula = y ~ x)\n\nResiduals:\n1       2       3       4       5       6\n3.3333 -0.6667 -2.6667 -2.6667 -0.6667  3.3333\n\nCoefficients:\n           Estimate Std. Error t value Pr(>|t|)\n(Intercept)  -9.3333     2.8441  -3.282 0.030453 *\nx             7.0000     0.7303   9.585 0.000662 ***\n---\nSignif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1",
+  r: "```{r block1}\n# this is the r block\nrequire(astsa)\nplot(jj, ylab="Earnings per Share", main="Johnson & Johnson")\n```",
   text: "Please enter your text here..."
 }
 
