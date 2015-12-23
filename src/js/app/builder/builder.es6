@@ -75,7 +75,7 @@ class Builder extends React.Component {
 
       switch (item.type) {
         case 'sql':
-          view = <div className="output">
+          view = <div className="section">
             {actions}
             <SqlWidget
               data={item.data}
@@ -83,7 +83,7 @@ class Builder extends React.Component {
           </div>;
           break;
         case 'r':
-          view = <div className="output">
+          view = <div className="section">
             {actions}
             <div>
               <iframe src={item.url}></iframe>
@@ -91,7 +91,7 @@ class Builder extends React.Component {
           </div>;
           break;
         case 'text':
-          view = <div className="output">
+          view = <div className="section">
             {actions}
             <div>
               {item.text}
@@ -99,7 +99,8 @@ class Builder extends React.Component {
           </div>;
           break;
         case 'input':
-          view = <div className="input">
+          view = <div className="section">
+            {actions}
             <ComboEditor
               onSubmit={this.addOutput.bind(this)}
               index={index}
@@ -107,11 +108,7 @@ class Builder extends React.Component {
           </div>
       }
 
-      result.push(
-        <div className="section">
-          {view}
-        </div>
-      );
+      result.push(view);
     });
 
     return result;
