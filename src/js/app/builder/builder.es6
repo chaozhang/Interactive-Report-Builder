@@ -5,6 +5,8 @@ import SqlWidget from './sqlWidget.es6'
 const DATA_INPUT = {
   type: "input"
 }
+
+const EMPTY_REPORT = "Please add a qeury from left pannel";
  
 class Builder extends React.Component {
   state = { 
@@ -65,9 +67,9 @@ class Builder extends React.Component {
     </div>
   }
 
-  createView() {
+  createMainView() {
     var items = this.state.data,
-        result = [],
+        results = [],
         actions = this.createActions();
 
     items.forEach((item, index) => {
@@ -105,19 +107,27 @@ class Builder extends React.Component {
               onSubmit={this.addOutput.bind(this)}
               index={index}
             />
-          </div>
+          </div>;
       }
 
-      result.push(view);
+      results.push(view);
     });
 
-    return result;
+    if(!results.length) {
+      results.push(<div>{EMPTY_REPORT}</div>);
+    }
+
+    return results;
   }
 
   render() {
-    return <div className="content">
-      <div className="container">
-        {this.createView()}
+    return <div className="content builder">
+      <div className="left-pannel">
+      </div>
+      <div className="main">
+        {this.createMainView()}
+      </div>
+      <div className="right-pannel">
       </div>
     </div>;
   }
