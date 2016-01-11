@@ -27,6 +27,8 @@ class QueryEditor extends React.Component {
   };
 
   onCodeSubmit(e) {
+    e.stopPropagation();
+
     if (this.props.mode == EDITOR_MODE_R) {
       this.submitRCode();
     } else if (this.props.mode == EDITOR_MODE_SQL) {

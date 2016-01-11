@@ -27,9 +27,9 @@ class Builder extends React.Component {
   }
 
   selectItem(e) {
-    // this.setState({
-    //   selected: this.getIndex(e)
-    // });
+    this.setState({
+      selected: this.getIndex(e)
+    });
   }
 
   editItem(e) {
@@ -37,6 +37,7 @@ class Builder extends React.Component {
         data = this.state.data,
         editing = data[index]['editing'];
 
+    e.stopPropagation();
     data[index]['editing'] = !editing;
 
     this.setState({
@@ -47,6 +48,8 @@ class Builder extends React.Component {
   removeItem(e) {
     var index = this.getIndex(e),
         data = this.state.data;
+
+    e.stopPropagation();
     data.splice(index, 1);
 
     this.setState({
@@ -77,16 +80,19 @@ class Builder extends React.Component {
     return $(".main .section").index($section[0]);
   }
 
-  createActions(output) {
-    let editBtn;
+  createActions(output, editing) {
+    let editBtn, removeBtn;
 
     if(output) {
       editBtn = <button onClick={this.editItem.bind(this)}>Edit</button>;
+      if(!editing) {
+        removeBtn = <button onClick={this.removeItem.bind(this)}>Delete</button>;
+      }     
     }
 
     return <div className="actions">
       {editBtn}
-      <button onClick={this.removeItem.bind(this)}>Delete</button>
+      {removeBtn}
     </div>
   }
 
@@ -134,7 +140,7 @@ class Builder extends React.Component {
         />;
       }
 
-      actions = this.createActions(output);
+      actions = this.createActions(output, item.editing);
 
       if(index === this.state.selected) {
         className += " selected";
