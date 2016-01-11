@@ -1,15 +1,19 @@
 import React from 'react'
-import ComboEditor from '../components/comboEditor.es6'
+import QueryEditor from '../components/queryEditor.es6'
 import SqlWidget from './sqlWidget.es6'
 
-const DATA_INPUT = {
-  type: "input"
+const DEFAULT_INPUT = {
+  sql: "select * from Crime limit 20",
+  r: "```{r block1}\n# this is the r block\nrequire(astsa)\nplot(jj, ylab=\"Earnings per Share\", main=\"Johnson & Johnson\")\n```",
+  text: "Please enter your text here..."
 }
+
+const EMPTY_MESSAGE = "Please create a query from left pannel.";
  
 class Builder extends React.Component {
   state = { 
-    data: [DATA_INPUT],
-    selected: 0
+    data: [],
+    selected: -1
   }
 
   addOutput(index, newItem) {
@@ -17,13 +21,26 @@ class Builder extends React.Component {
     data[index] = newItem;
 
     this.setState({
-      data: data
+      data: data,
+      selected: index
     });
   }
 
   selectItem(e) {
+    // this.setState({
+    //   selected: this.getIndex(e)
+    // });
+  }
+
+  editItem(e) {
+    var index = this.getIndex(e),
+        data = this.state.data,
+        editing = data[index]['editing'];
+
+    data[index]['editing'] = !editing;
+
     this.setState({
-      selected: this.getIndex(e)
+      data: data
     });
   }
 
@@ -32,23 +49,25 @@ class Builder extends React.Component {
         data = this.state.data;
     data.splice(index, 1);
 
-    if (data.length == 0) {
-      data.push(DATA_INPUT);
-    }
-
     this.setState({
       data: data,
-      selected: -1
+      selected: index-1
     });
   }
 
-  addNewItem(e) {
-    var index = this.getIndex(e),
+  addNewItem(type) {
+    var index = this.state.selected,
         data = this.state.data;
-    data.splice(index+1, 0, DATA_INPUT);
+
+    data.splice(index+1, 0, {
+      type: type,
+      editing: true,
+      query: DEFAULT_INPUT[type]
+    });
 
     this.setState({
-      data: data
+      data: data,
+      selected: index+1
     });
   }
 
@@ -58,9 +77,15 @@ class Builder extends React.Component {
     return $(".main .section").index($section[0]);
   }
 
-  createActions() {
+  createActions(output) {
+    let editBtn;
+
+    if(output) {
+      editBtn = <button onClick={this.editItem.bind(this)}>Edit</button>;
+    }
+
     return <div className="actions">
-      <button>Edit</button>
+      {editBtn}
       <button onClick={this.removeItem.bind(this)}>Delete</button>
     </div>
   }
@@ -68,37 +93,48 @@ class Builder extends React.Component {
   createMainView() {
     var items = this.state.data,
         results = [],
-        actions = this.createActions();
+        actions;
 
     items.forEach((item, index) => {
       let view,
-          content,
+          output,
+          input,
           className = "section";
 
       switch (item.type) {
         case 'sql':
-          content = <SqlWidget
-            data={item.data}
-          />;
+          if(item.data) {
+            output = <SqlWidget
+              data={item.data}
+            />;        
+          }
           break;
         case 'r':
-          content = <div>
-            <iframe src={item.url}></iframe>
-          </div>;
+          if(item.url) {
+            output = <div>
+              <iframe src={item.url}></iframe>
+            </div>;      
+          }
           break;
         case 'text':
-          content = <div>
-            {item.text}
-          </div>;
-          break;
-        case 'input':
-          content = <ComboEditor
-            onSubmit={this.addOutput.bind(this)}
-            index={index}
-            mode='r'
-          />;
+          if(item.text || item.text == "") {
+            output = <div>
+              {item.text}
+            </div>;     
+          }
           break;
       }
+
+      if(item.editing) {
+        input = <QueryEditor
+          onSubmit={this.addOutput.bind(this)}
+          index={index}
+          mode={item.type}
+          query={item.query}
+        />;
+      }
+
+      actions = this.createActions(output);
 
       if(index === this.state.selected) {
         className += " selected";
@@ -108,11 +144,18 @@ class Builder extends React.Component {
         className={className}
         onClick={this.selectItem.bind(this)}>
         {actions}
-        {content}
+        <div>
+          {input}
+          {output}
+        </div>
       </div>;    
 
       results.push(view);
     });
+
+    if(items.length == 0){
+      results.push(<div className="empty">{EMPTY_MESSAGE}</div>)
+    }
 
     return results;
   }
@@ -121,13 +164,13 @@ class Builder extends React.Component {
     return <div className="content builder">
       <div className="left-pannel">
         <div className="toolbox">
-          <div>
+          <div onClick={this.addNewItem.bind(this, 'sql')}>
             <span>SQL</span>
           </div>
-          <div>
+          <div onClick={this.addNewItem.bind(this, 'r')}>
             <span>R</span>
           </div>
-          <div>
+          <div onClick={this.addNewItem.bind(this, 'text')}>
             <span>Text</span>
           </div>
         </div>
