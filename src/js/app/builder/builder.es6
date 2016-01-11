@@ -5,12 +5,11 @@ import SqlWidget from './sqlWidget.es6'
 const DATA_INPUT = {
   type: "input"
 }
-
-const EMPTY_REPORT = "Please add a qeury from left pannel";
  
 class Builder extends React.Component {
   state = { 
-    data: [DATA_INPUT]
+    data: [DATA_INPUT],
+    selected: 0
   }
 
   addOutput(index, newItem) {
@@ -19,6 +18,12 @@ class Builder extends React.Component {
 
     this.setState({
       data: data
+    });
+  }
+
+  selectItem(e) {
+    this.setState({
+      selected: this.getIndex(e)
     });
   }
 
@@ -32,7 +37,8 @@ class Builder extends React.Component {
     }
 
     this.setState({
-      data: data
+      data: data,
+      selected: -1
     });
   }
 
@@ -49,21 +55,13 @@ class Builder extends React.Component {
   getIndex(e) {
     var $section = $(e.target).closest(".section");
 
-    return $(".container .section").index($section[0]);
+    return $(".main .section").index($section[0]);
   }
 
   createActions() {
     return <div className="actions">
-      <button
-        className="add-input"
-        onClick={this.addNewItem.bind(this)}>
-        +
-      </button>
-      <button
-        className="remove"
-        onClick={this.removeItem.bind(this)}>
-        X
-      </button>
+      <button>Edit</button>
+      <button onClick={this.removeItem.bind(this)}>Delete</button>
     </div>
   }
 
@@ -73,49 +71,48 @@ class Builder extends React.Component {
         actions = this.createActions();
 
     items.forEach((item, index) => {
-      let view;
+      let view,
+          content,
+          className = "section";
 
       switch (item.type) {
         case 'sql':
-          view = <div className="section">
-            {actions}
-            <SqlWidget
-              data={item.data}
-            />
-          </div>;
+          content = <SqlWidget
+            data={item.data}
+          />;
           break;
         case 'r':
-          view = <div className="section">
-            {actions}
-            <div>
-              <iframe src={item.url}></iframe>
-            </div>
+          content = <div>
+            <iframe src={item.url}></iframe>
           </div>;
           break;
         case 'text':
-          view = <div className="section">
-            {actions}
-            <div>
-              {item.text}
-            </div>
+          content = <div>
+            {item.text}
           </div>;
           break;
         case 'input':
-          view = <div className="section">
-            {actions}
-            <ComboEditor
-              onSubmit={this.addOutput.bind(this)}
-              index={index}
-            />
-          </div>;
+          content = <ComboEditor
+            onSubmit={this.addOutput.bind(this)}
+            index={index}
+            mode='r'
+          />;
+          break;
       }
+
+      if(index === this.state.selected) {
+        className += " selected";
+      }
+
+      view = <div 
+        className={className}
+        onClick={this.selectItem.bind(this)}>
+        {actions}
+        {content}
+      </div>;    
 
       results.push(view);
     });
-
-    if(!results.length) {
-      results.push(<div>{EMPTY_REPORT}</div>);
-    }
 
     return results;
   }
@@ -123,6 +120,17 @@ class Builder extends React.Component {
   render() {
     return <div className="content builder">
       <div className="left-pannel">
+        <div className="toolbox">
+          <div>
+            <span>SQL</span>
+          </div>
+          <div>
+            <span>R</span>
+          </div>
+          <div>
+            <span>Text</span>
+          </div>
+        </div>
       </div>
       <div className="main">
         {this.createMainView()}
