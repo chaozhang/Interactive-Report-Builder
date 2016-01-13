@@ -76,8 +76,14 @@ gulp.task('app:assets', function() {
     .pipe(gulp.dest(paths.output + '/assets'));
 });
 
+// build app repo
+gulp.task('app:repo', function() {
+  gulp.src(paths.src + '/repo/**/*')
+    .pipe(gulp.dest(paths.output + '/repo'));
+});
+
 // default build process
-gulp.task('default', ['app:js', 'app:js:vendor', 'app:html', 'app:css', 'app:assets'], function(){
+gulp.task('default', ['app:js', 'app:js:vendor', 'app:html', 'app:css', 'app:assets', 'app:repo'], function(){
   console.log('done: add gulp watch here');
 });
 

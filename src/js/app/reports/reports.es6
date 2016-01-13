@@ -1,8 +1,16 @@
 import React from 'react'
  
 class Reports extends React.Component {
-  componentDidMount() {
+  state = { 
+    data: []
+  }
 
+  componentDidMount() {
+    var def = $.get('repo/reports/report-1.json');
+
+    def.done( function(data){
+      alert(data);
+    });
   }
 
   render() {

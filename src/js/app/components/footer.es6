@@ -4,7 +4,7 @@ class Footer extends React.Component {
   static defaultProps = {
     git: {
       userName: 'chaozhang',
-      repoName: 'Force-Directed-Graph',
+      repoName: 'Interactive-Report-Builder',
       btnTypes: [
         {
           name: 'follow',
@@ -21,7 +21,7 @@ class Footer extends React.Component {
         {
           name: 'watch',
           size: '100px'
-        }                        
+        }
       ]
     }
   }
