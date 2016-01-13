@@ -308,7 +308,6 @@ iframe {
 }
 #main {
   width: 100%;
-  min-height: 700px;
 }
 #main > div.content {
   width: 80%;
