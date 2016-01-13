@@ -1,11 +1,13 @@
 {
-	"name": "report name 1",
+	"title": "report name 1",
 	"created": "01/12/2016",
 	"id": 1,
-	"createdBy": "Chao Zhang",
+	"author": "Chao Zhang",
+	"description": "report 1 description",
 	"data": [
 		{
-			
+
 		}
 	]
+
 }

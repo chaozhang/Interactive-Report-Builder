@@ -27,11 +27,36 @@ class Reports extends React.Component {
   }
 
   createReportsList() {
-    return this.state.data;
+    var items = this.state.data, 
+        view = [],
+        cols = ['title', 'description', 'author', 'created'];
+
+    for(let i in items) {
+      let row = [];
+
+      if(i == 0) {
+        let headercols = [];
+
+        for(let col of cols){
+          headercols.push(<div className={col}>{col}</div>);
+        }
+
+        view.push(<div className="header">{headercols}</div>);
+      }
+
+
+      for(let col of cols){
+        row.push(<div className={col}>{items[i][col]}</div>);
+      }
+
+      view.push(<div className="row">{row}</div>);
+    }
+    return view;
   }
 
   render() {
-    return <div className="content">
+    return <div className="content reports">
+      <label>Reports</label>
       {this.createReportsList()}
     </div>;
   }
