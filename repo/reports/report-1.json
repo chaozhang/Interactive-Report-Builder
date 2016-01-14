@@ -1,12 +1,18 @@
 {
 	"title": "report name 1",
 	"created": "01/12/2016",
-	"id": 1,
+	"id": "report-1",
 	"author": "Chao Zhang",
 	"description": "report 1 description",
 	"data": [
 		{
-
+			"query": "This is report for Johnson & Johnson",
+			"text": "This is report for Johnson & Johnson",
+			"type": "text"
+		},
+		{
+			"query": "```{r block1}\n# this is the r block\nrequire(astsa)\nplot(jj, ylab=\"Earnings per Share\", main=\"Johnson & Johnson\")\n```",
+			"type": "r"
 		}
 	]
 
