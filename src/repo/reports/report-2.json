@@ -1,12 +1,19 @@
 {
 	"title": "report name 2",
 	"created": "01/12/2016",
-	"id": 2,
+	"id": "report-2",
 	"author": "Chao Zhang",
 	"description": "report 2 description",
 	"data": [
 		{
-			
+			"query": "This is report for text only",
+			"text": "This is report for text only",
+			"type": "text"
+		},
+		{
+			"query": "text here...",
+			"text": "text here...",
+			"type": "text"
 		}
 	]
 }

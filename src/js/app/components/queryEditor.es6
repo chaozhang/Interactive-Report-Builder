@@ -5,7 +5,7 @@ const EDITOR_MODE_SQL = 'sql';
 const EDITOR_MODE_R = 'r';
 const EDITOR_MODE_Text = 'text';
 
-var POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobserver&classPath=com.projectx.jobserver.sqlRelay&context=sqlquery&sync=true";
+const POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobserver&classPath=com.projectx.jobserver.sqlRelay&context=sqlquery&sync=true";
 
 class QueryEditor extends React.Component {
   componentDidMount() {
@@ -42,7 +42,7 @@ class QueryEditor extends React.Component {
     var query = this.editor.getValue();
 
     ocpu.call("rmdtext", {
-      text : query
+      text: query
     }, (session) => {
       this.props.onSubmit(this.props.index, {
         type: this.props.mode,

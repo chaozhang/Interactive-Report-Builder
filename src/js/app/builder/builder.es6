@@ -9,11 +9,26 @@ const DEFAULT_INPUT = {
 }
 
 const EMPTY_MESSAGE = "Please create a query from left pannel.";
+
+const POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobserver&classPath=com.projectx.jobserver.sqlRelay&context=sqlquery&sync=true";
  
 class Builder extends React.Component {
   state = { 
     data: [],
     selected: -1
+  }
+
+  componentDidMount() {
+    var reportId = this.props.query.id;
+
+    if(reportId) {
+      $.get('repo/reports/'+reportId+'.json').done((res) => {
+        this.setState({
+          data: res.data,
+          selected: res.data.length-1
+        });
+      });
+    }
   }
 
   addOutput(index, newItem) {
@@ -96,6 +111,42 @@ class Builder extends React.Component {
     </div>
   }
 
+  runQuery(type, query, index) {
+    if(type == 'r') {
+      ocpu.call("rmdtext", {
+        text: query
+      }, (session) => {
+        this.addOutput(index, {
+          type: type,
+          url: session.getFileURL("output.html"),
+          query: query
+        });
+      });
+    } else if(type == 'sql') {
+      let def = $.post(POSTURL, {input: this.urlencode(query)});
+
+      def.done((res) => {
+        this.addOutput(index, {
+          type: type,
+          data: res.result,
+          query: query
+        });
+      });
+    }
+  }
+
+  urlencode(str) {
+    var str = (str + '').toString();
+
+    return encodeURIComponent(str)
+      .replace(/!/g, '%21')
+      .replace(/'/g, '%27')
+      .replace(/\(/g, '%28')
+      .replace(/\)/g, '%29')
+      .replace(/\*/g, '%2A')
+      .replace(/%20/g, '+');
+  }
+
   createMainView() {
     var items = this.state.data,
         results = [],
@@ -113,6 +164,8 @@ class Builder extends React.Component {
             output = <SqlWidget
               data={item.data}
             />;        
+          } else if(item.query && !item.editing) {
+            this.runQuery(item.type, item.query, index);
           }
           break;
         case 'r':
@@ -120,6 +173,8 @@ class Builder extends React.Component {
             output = <div>
               <iframe src={item.url}></iframe>
             </div>;      
+          } else if(item.query && !item.editing) {
+            this.runQuery(item.type, item.query, index);
           }
           break;
         case 'text':

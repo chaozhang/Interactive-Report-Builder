@@ -3,12 +3,17 @@ import React from 'react'
 const REPORT_IDS = ['report-1', 'report-2', 'report-3'];
  
 class Reports extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.context = context;      
+  }
+
   state = { 
     data: null
   }
 
   componentDidMount() {
-    var defs = [], 
+    var defs = [],
         reportsData = [];
 
     for(let report of REPORT_IDS) {
@@ -24,6 +29,14 @@ class Reports extends React.Component {
         data: reportsData
       });
     });
+
+    $.when(...defs).fail((e)=>{
+      alert(e);
+    });
+  }
+
+  openReport(id) {
+    this.context.router.transitionTo('/builder', null, {id: id});
   }
 
   createReportsList() {
@@ -49,7 +62,7 @@ class Reports extends React.Component {
         row.push(<div className={col}>{items[i][col]}</div>);
       }
 
-      view.push(<div className="row">{row}</div>);
+      view.push(<div className="row" onClick={this.openReport.bind(this, items[i].id)}>{row}</div>);
     }
     return view;
   }
@@ -61,5 +74,9 @@ class Reports extends React.Component {
     </div>;
   }
 }
+
+Reports.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
  
 export default Reports

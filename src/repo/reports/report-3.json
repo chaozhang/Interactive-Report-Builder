@@ -1,12 +1,18 @@
 {
 	"title": "report name 3",
 	"created": "01/12/2016",
-	"id": 3,
+	"id": "report-3",
 	"author": "Chao Zhang",
 	"description": "report 3 description",
 	"data": [
 		{
-			
+			"query": "This is report for top 5 Crime events",
+			"text": "This is report for top 5 Crime events",
+			"type": "text"
+		},
+		{
+			"query": "select * from Crime limit 5",
+			"type": "sql"
 		}
 	]
 }
