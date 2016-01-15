@@ -12,7 +12,7 @@ var { Route, DefaultRoute, RouteHandler } = Router
 class App extends React.Component {
   componentWillMount() {
     // set up ocpu
-    ocpu.seturl("//158.85.79.185:3602/ocpu/library/rmarkdown/R")
+    ocpu.seturl("//158.85.79.185:4515/ocpu/library/rmarkdown/R")
 
     // distroy TogetherJS before leaving the site
     $( window ).unload(function() {
