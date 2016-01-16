@@ -10,6 +10,7 @@ var TogetherJSConfig_autoStart = true,
     TogetherJSConfig_toolName = " Collaboration",
     TogetherJSConfig_siteName = "projectx",
     TogetherJSConfig_cloneClicks = false,
+    TogetherJSConfig_noAutoStart = true,
     TogetherJSConfig_getUserName = function () {
       return 'Your Name...';
     };

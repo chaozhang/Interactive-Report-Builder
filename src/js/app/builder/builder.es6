@@ -24,11 +24,17 @@ class Builder extends React.Component {
     if(reportId) {
       $.get('repo/reports/'+reportId+'.json').done((res) => {
         this.setState({
-          data: res.data,
-          selected: res.data.length-1
+          data: res.data
         });
       });
     }
+    // start togetherJS
+    TogetherJS();
+  }
+
+  componentWillUnmount() {
+    // stop togetherJS
+    TogetherJS();
   }
 
   addOutput(index, newItem) {
@@ -36,8 +42,7 @@ class Builder extends React.Component {
     data[index] = newItem;
 
     this.setState({
-      data: data,
-      selected: index
+      data: data
     });
   }
 
@@ -69,15 +74,16 @@ class Builder extends React.Component {
 
     this.setState({
       data: data,
-      selected: index-1
+      selected: -1
     });
   }
 
   addNewItem(type) {
     var index = this.state.selected,
-        data = this.state.data;
+        data = this.state.data,
+        newIndex = (index == -1) ? data.length-1 : index;
 
-    data.splice(index+1, 0, {
+    data.splice(newIndex + 1, 0, {
       type: type,
       editing: true,
       query: DEFAULT_INPUT[type]
@@ -85,7 +91,7 @@ class Builder extends React.Component {
 
     this.setState({
       data: data,
-      selected: index+1
+      selected: newIndex + 1
     });
   }
 

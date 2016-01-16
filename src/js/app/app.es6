@@ -22,12 +22,6 @@ class App extends React.Component {
     });
   }
 
-  componentDidMount() {
-    if(!TogetherJS.startup.continued){
-      TogetherJS();
-    }
-  }
-
   render() {
     return <div className='bodywrap'>
       <Header/>
