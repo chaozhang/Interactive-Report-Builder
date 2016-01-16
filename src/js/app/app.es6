@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'react-router'
 import Builder from './builder/builder.es6'
 import Reports from './reports/reports.es6'
+import Datasets from './datasets/datasets.es6'
 import Footer from './components/footer.es6'
 import Header from './components/header.es6'
 import Nav from './components/nav.es6'
@@ -38,6 +39,7 @@ var routes = (
   <Route path="/" handler={App}>
     <DefaultRoute handler={Reports}/>
     <Route name="builder" handler={Builder}/>
+    <Route name="datasets" handler={Datasets}/>
   </Route>
 )
 

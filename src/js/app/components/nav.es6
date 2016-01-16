@@ -13,6 +13,10 @@ class Header extends React.Component {
       {
         name: 'Builder',
         url: '/builder'
+      },
+      {
+        name: 'Datasets',
+        url: '/datasets'
       }
     ]
   }
