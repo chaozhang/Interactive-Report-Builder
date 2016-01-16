@@ -29,10 +29,6 @@ class Reports extends React.Component {
         data: reportsData
       });
     });
-
-    $.when(...defs).fail((e)=>{
-      alert(e);
-    });
   }
 
   openReport(id) {
