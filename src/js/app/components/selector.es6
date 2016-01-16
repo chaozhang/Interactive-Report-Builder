@@ -1,7 +1,9 @@
 import React from 'react'
+import Icon from '../components/icon.es6'
  
 class Selector extends React.Component {
   static defaultProps = {
+    name: "",
     list: [],
     onChange: function(){}
   };
@@ -12,11 +14,19 @@ class Selector extends React.Component {
   };
 
   select(e) {
-    var text = $(e.target).text();
     this.setState({
       showItems: false,
-      selected: text
-    }, this.props.onChange.bind(this, text));
+      selected: $(e.target).text()
+    }, this.props.onChange);
+  }
+
+  remove(e) {
+    e.stopPropagation();
+
+    this.setState({
+      selected: null,
+      showItems: false
+    }, this.props.onChange);
   }
 
   toggleItems() {
@@ -38,15 +48,17 @@ class Selector extends React.Component {
   }
 
   render() {
-    var displayText = this.props.list[0];
+    var displayName = this.props.name,
+        remove;
 
     if(this.state.selected) {
-      displayText = this.state.selected;
+      displayName = this.state.selected;
+      remove = <i onClick={this.remove.bind(this)}><Icon iconName="close"/></i>;
     }
 
     return <div className="selector">
         <div className="display" onClick={this.toggleItems.bind(this)}>
-          <p>{displayText}</p>
+          <p>{displayName}</p>{remove}
         </div>
         {this.renderListItems()}
       </div>
