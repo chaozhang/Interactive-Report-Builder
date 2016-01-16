@@ -2,67 +2,15 @@
 	width 100%
 	display flex
 	margin-bottom spacing-medium
+	flex-direction column
 
-	.left, .right
+	.submitBtn
 		display flex
-
-	.left
-		margin-right 5px
-		
-	.right
-		flex-direction column
-
-		button
-			height 38px
-			width 70px
-			align-items center
-			display flex
-
-	.selector
+		width 6rem
+		height 3rem
+		align-items center
+		border 1px solid color-blue-rome
+		justify-content center
+		margin-bottom 1rem
 		cursor pointer
-		flex-direction column
-		height 48px
-		color color-blue-aluminium
-		display flex
-		align-items flex-start
-		justify-content flex-start
-		width 230px
-		
-		.display, > ul
-			height 100%
-			width 230px
-
-		.display
-			padding-left 1rem
-			align-items center
-			display flex
-			justify-content space-between
-			color color-blue-aluminium
-			border 1px solid color-blue-rome
-
-			&:hover
-				color color-blue-endeavour
-			svg
-				width 18px
-				height 18px
-				fill color-blue-aluminium
-				margin-right 5px
-
-		> ul
-			position absolute
-			z-index 100
-
-			li
-				padding-left 1rem
-				background-color color-white
-				border solid 1px color-blue-rome
-				border-top none
-				height 48px
-				color color-blue-aluminium
-				display flex
-				align-items center
-				justify-content flex-start
-
-				&:hover
-					color color-blue-endeavour
-
+		padding 0 0.5rem

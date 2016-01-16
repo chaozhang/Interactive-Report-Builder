@@ -89,10 +89,8 @@ class QueryEditor extends React.Component {
 
   render() {
     return <div className="query-editor">
-      <div className="right">
-        <div ref="editor"/>
-        <button onClick={this.onCodeSubmit.bind(this)}>Submit</button>
-      </div>
+      <div ref="editor"/>
+      <div className="submitBtn" onClick={this.onCodeSubmit.bind(this)}>Submit</div>
     </div>
   }
 }
