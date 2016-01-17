@@ -36,10 +36,12 @@ var Store = {
       def.resolve(_store.datasets[params]);
     } else {
       Api.getDatasetsGraph(params).done( (data) => {
-        _store.datasets[params] = data;
+        _store.datasets[params] = JSON.parse(data.result);
         def.resolve(_store.datasets[params]);
       });
     }
+
+    return def;
   }
 }
 

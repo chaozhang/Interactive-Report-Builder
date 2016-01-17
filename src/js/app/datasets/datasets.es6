@@ -2,6 +2,7 @@ import React from 'react'
 import Graph from './Graph.es6'
 import Loading from '../components/loading.es6'
 import Selector from '../components/selector.es6'
+import Store from '../store/store.es6'
 
 var POSTURL = "http:\/\/158.85.79.185:1337/158.85.79.185:8090/jobs?appName=jobserver&classPath=com.projectx.jobserver.readVisGraph&context=readvisgraph&sync=true";
 var DATASETLIST = null;
@@ -19,17 +20,8 @@ class Datasets extends React.Component {
   _fetchData(param) {
     var dataset = param ? param.dataset : 'all';
     var relationship = param ? param.relationship : 'all';
-    var def = $.post(POSTURL, {input: dataset + ";" + relationship});
 
-    if(this.state.data) {
-       this.setState({
-        data: null
-      });     
-    }
-
-    def.done( (res) => {
-      let data = JSON.parse(res.result);
-
+    Store.getDatasetsGraph(dataset + ";" + relationship).done( (data) => {
       if(!DATASETLIST){
         DATASETLIST = data.groups.map((item) => {return item.name;});
       }
@@ -50,7 +42,9 @@ class Datasets extends React.Component {
       relationship: this.refs.relationship.state.selected ? this.refs.relationship.state.selected : 'all',
     };
 
-    this._fetchData(param);
+    this.setState({
+      data: null
+    }, this._fetchData.bind(this, param));
   }
 
   createFilterControl() {
