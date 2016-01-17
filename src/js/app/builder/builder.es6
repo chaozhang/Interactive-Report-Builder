@@ -1,6 +1,7 @@
 import React from 'react'
 import QueryEditor from '../components/queryEditor.es6'
 import SqlWidget from './sqlWidget.es6'
+import Store from '../store/store.es6'
 
 const DEFAULT_INPUT = {
   sql: "select * from Crime limit 20",
@@ -22,7 +23,7 @@ class Builder extends React.Component {
     var reportId = this.props.query.id;
 
     if(reportId) {
-      $.get('repo/reports/'+reportId+'.json').done((res) => {
+      Store.getReport(reportId).done((res) => {
         this.setState({
           data: res.data
         });
