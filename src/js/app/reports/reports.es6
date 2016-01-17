@@ -1,4 +1,5 @@
 import React from 'react'
+import Store from '../store/store.es6'
 
 const REPORT_IDS = ['report-1', 'report-2', 'report-3'];
  
@@ -8,25 +9,20 @@ class Reports extends React.Component {
     this.context = context;      
   }
 
-  state = { 
+  state = {
     data: null
   }
 
   componentDidMount() {
-    var defs = [],
-        reportsData = [];
+    var defs = [];
 
-    for(let report of REPORT_IDS) {
-      defs.push($.get('repo/reports/'+report+'.json'));
+    for(let reportId of REPORT_IDS) {
+      defs.push(Store.getReport(reportId));
     }
 
-    $.when(...defs).done( (data1, data2, data3) => {
-      reportsData.push(data1[0]);
-      reportsData.push(data2[0]);
-      reportsData.push(data3[0]);
-
+    $.when(...defs).done( (...reports) => {
       this.setState({
-        data: reportsData
+        data: reports
       });
     });
   }

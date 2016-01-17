@@ -76,7 +76,7 @@ class Datasets extends React.Component {
   }
 
   render() {
-    var content = <Loading/>;
+    let content = <Loading/>;
 
     if(this.state.data) {
       content = <Graph data={this.state.data}/>;
