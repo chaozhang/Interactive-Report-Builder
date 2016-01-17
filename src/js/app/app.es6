@@ -11,7 +11,7 @@ import Nav from './components/nav.es6'
 var { Route, DefaultRoute, RouteHandler } = Router
  
 class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     // set up ocpu
     ocpu.seturl("//158.85.79.185:4515/ocpu/library/rmarkdown/R")
 
