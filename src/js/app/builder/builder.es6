@@ -29,13 +29,6 @@ class Builder extends React.Component {
         });
       });
     }
-    // start togetherJS
-    TogetherJS();
-  }
-
-  componentWillUnmount() {
-    // stop togetherJS
-    TogetherJS();
   }
 
   addOutput(index, newItem) {
