@@ -13,7 +13,7 @@ var { Route, DefaultRoute, RouteHandler } = Router
 class App extends React.Component {
   componentDidMount() {
     // set up ocpu
-    ocpu.seturl("//158.85.79.185:4515/ocpu/library/rmarkdown/R");
+    ocpu.seturl("//158.85.79.185:6310/ocpu/library/rmarkdown/R");
   }
 
   render() {
