@@ -2,7 +2,11 @@ import Api from './api.es6'
 
 var _store = {
   reports: {},
-  datasets: {}
+  datasets: {
+    graph: {},
+    names: [],
+    relations: []
+  }
 }
 
 var Store = {
@@ -32,17 +36,35 @@ var Store = {
   getDatasetsGraph: (params) => {
     var def = $.Deferred();
 
-    if(_store.datasets[params]) {
-      def.resolve(_store.datasets[params]);
+    if(_store.datasets.graph[params]) {
+      def.resolve(_store.datasets.graph[params]);
     } else {
       Api.getDatasetsGraph(params).done( (data) => {
-        _store.datasets[params] = JSON.parse(data.result);
-        def.resolve(_store.datasets[params]);
+        _store.datasets.graph[params] = JSON.parse(data.result);
+
+        if(!_store.datasets.names.length){
+          _store.datasets.names = _store.datasets.graph[params].groups.map((item) => {return item.name;});
+        }
+
+        if(!_store.datasets.relations.length){
+          _store.datasets.relations = $.unique(_store.datasets.graph[params].links.map((item) => {return item.type;})); 
+        }
+
+        def.resolve(_store.datasets.graph[params]);
       });
     }
 
     return def;
+  },
+
+  getDatasetRelations: () => {
+    return _store.datasets.relations;
+  },
+
+  getDatasetNames: () => {
+    return _store.datasets.names;
   }
+
 }
 
 export default Store
